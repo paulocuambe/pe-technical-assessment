@@ -76,7 +76,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-plan
-          path: iac/plan.out
+          path: plan.out
+
+      - name: "Debug: list all"
+	    run: ls -R
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -93,7 +96,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve plan.out
+        run: terraform apply -auto-approve ../plan.out
 
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
