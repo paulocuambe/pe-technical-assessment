@@ -63,7 +63,6 @@ jobs:
             iac/plan.out
             iac/plan.json
 
-
   terraform-apply:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
@@ -95,4 +94,11 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve plan.out
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Write Instance IP to Inventory
+        run: terraform outup -json | jq -r .instance_ip > ../ansible/inventory
+
 
