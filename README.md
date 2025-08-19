@@ -1,0 +1,19 @@
+## TODO
+- [X] MVP of word service
+- [ ] Terraform Code to provision ec2 instance and all supporting resources
+- [ ] Ansible code to configure instance
+	- [ ] Instal k3s and dependencies
+	- [ ] Configure k8s cluster
+- [ ] Create Dockerfile to build the app
+- [ ] Setup Github Actions
+- [ ] Deploy K8S manifests with Ansible
+- [ ] Create the OpenAPI spec
+- [ ] Refactor the MVP
+	- [ ] Add unit tests
+	- [ ] Integration tests
+	- [ ] Update code organization to emulate a production
+- [ ] Monitoring
+	- [ ] Add Grafana and prometheus for monitoring
+	- [ ] Fallback to aws cloudwatch
+- [ ] Deploy sonarqube community on an ec2 instance
+	- [ ] Integrate Sonarqube Community to Github Actions
