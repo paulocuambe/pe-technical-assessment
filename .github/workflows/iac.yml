@@ -11,6 +11,9 @@ on:
 	  - develop
   workflow_dispatch:
 
+env:
+  TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+
 permissions:
   contents: read
   pull-requests: write
