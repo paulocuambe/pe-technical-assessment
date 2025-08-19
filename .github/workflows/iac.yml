@@ -27,7 +27,7 @@ jobs:
         with:
           terraform_version: 1.12.2
 
-      - name: Debug: list everything
+      - name: "Debug: list everything"
         run: ls -R
 
       - name: Terraform Init
