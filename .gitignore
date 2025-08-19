@@ -1,5 +1,6 @@
 .terraform/
 .terraform.lock.hcl
+*.swp
 
 # .tfstate files
 *.tfstate
