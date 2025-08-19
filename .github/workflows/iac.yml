@@ -10,6 +10,10 @@ on:
       - main
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: iac
+
 jobs:
   terraform-validate:
     name: "Terraform Validate"
@@ -22,14 +26,14 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
-          working-directory: iac
+
+      - name: Debug: list everything
+        run: ls -R
 
       - name: Terraform Init
-        id: init
         run: terraform init
 
       - name: Terraform Validate
-        id: validate
         run: terraform validate
 
   terraform-plan:
@@ -44,7 +48,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
-          working-directory: iac
 
       - name: Terraform Init
         run: terraform init
@@ -83,7 +86,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
-          working-directory: iac
 
       - name: Terraform Init
         run: terraform init
