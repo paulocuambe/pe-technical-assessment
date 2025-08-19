@@ -10,8 +10,10 @@ on:
       - main
   workflow_dispatch:
 
-#permissions:
-#  id-token: write
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
 
 defaults:
   run:
