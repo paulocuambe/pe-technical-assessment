@@ -1,8 +1,5 @@
 name: Terraform CI/CD
 
-env:
-  TF_CLI_ARGS: "-chdir=iac"
-
 # Configure the pipeline to run on pull requests and pushes to the 'main' branch.
 on:
   pull_request:
@@ -25,6 +22,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
+          working-directory: iac
 
       - name: Terraform Init
         id: init
@@ -46,6 +44,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
+          working-directory: iac
 
       - name: Terraform Init
         run: terraform init
@@ -84,6 +83,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
+          working-directory: iac
 
       - name: Terraform Init
         run: terraform init
