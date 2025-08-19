@@ -38,7 +38,7 @@ resource "aws_main_route_table_association" "main" {
 
 resource "aws_subnet" "pvt" {
   vpc_id                  = aws_vpc.pvt.id
-  cidr_block              = "10.1.0.0/16"
+  cidr_block              = "10.0.1.0/16"
   map_public_ip_on_launch = false # making sure i don't get charged for public ips $$
   availability_zone       = "af-south-1a"
 
@@ -49,7 +49,7 @@ resource "aws_subnet" "pvt" {
 
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.pvt.id
-  cidr_block              = "10.20.0.0/16"
+  cidr_block              = "10.0.20.0/16"
   map_public_ip_on_launch = true
   availability_zone       = "af-south-1b"
 
