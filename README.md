@@ -1,6 +1,6 @@
 ## TODO
 - [X] MVP of word service
-- [ ] Terraform Code to provision ec2 instance and all supporting resources
+- [X] Terraform Code to provision ec2 instance and all supporting resources
 - [ ] Ansible code to configure instance
 	- [ ] Instal k3s and dependencies
 	- [ ] Configure k8s cluster
