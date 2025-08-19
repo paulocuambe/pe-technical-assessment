@@ -56,8 +56,8 @@ jobs:
         with:
           name: terraform-plan
           path: |
-            plan.out
-            plan.json
+            iac/plan.out
+            iac/plan.json
 
 
   terraform-apply:
