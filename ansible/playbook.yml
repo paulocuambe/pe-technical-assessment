@@ -1,5 +1,5 @@
 - name: Setup server
-  hosts: servers
+  hosts: all
   become: yes
   vars:
     greeting: "Hello, Ansible!"
@@ -25,6 +25,4 @@
     - name: Install k3s
       ansible.builtin.shell: curl -sfL https://get.k3s.io | sh -
 	  when: not kubelet_conf_file.stat.exists
-
-
 
