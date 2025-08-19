@@ -1,10 +1,10 @@
 # ami-02839d797c7613993
 
 resource "aws_instance" "web" {
-  ami           = "ami-02839d797c7613993" # Amazon Linux 2023 x86
-  instance_type = "t3a.small"
-  subnet_id = aws_subnet.public.id
-  user_data = <<EOF
+  ami                    = "ami-02839d797c7613993" # Amazon Linux 2023 x86
+  instance_type          = "t3a.small"
+  subnet_id              = aws_subnet.public.id
+  user_data              = <<EOF
     #cloud-config
 	users:
 		- name: ssm-user
