@@ -1,5 +1,8 @@
 name: Terraform CI/CD
 
+env:
+  TF_CLI_ARGS: "-chdir=iac"
+
 # Configure the pipeline to run on pull requests and pushes to the 'main' branch.
 on:
   pull_request:
