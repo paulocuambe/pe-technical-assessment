@@ -10,19 +10,19 @@
         name: curl
         state: present
 
-	# https://docs.k3s.io/installation/requirements?os=rhel#operating-systems
-	- name: Ensure firewalld is disabled
-	  ansilbe.builting.systemd:
-		name: firewalld
-		state: stopped
-	  failed_when: false
+    # https://docs.k3s.io/installation/requirements?os=rhel#operating-systems
+   - name: Ensure firewalld is disabled
+     ansilbe.builting.systemd:
+       name: firewalld
+       state: stopped
+     failed_when: false
 
-	- name: Check if k3s is already installed
-	  ansible.builtin.stat:
-	    path: /etc/rancher/k3s/kubelet.conf
-	  register: kubelet_conf_file
+   - name: Check if k3s is already installed
+     ansible.builtin.stat:
+       path: /etc/rancher/k3s/kubelet.conf
+       register: kubelet_conf_file
 
-    - name: Install k3s
-      ansible.builtin.shell: curl -sfL https://get.k3s.io | sh -
-	  when: not kubelet_conf_file.stat.exists
+   - name: Install k3s
+     ansible.builtin.shell: curl -sfL https://get.k3s.io | sh -
+     when: not kubelet_conf_file.stat.exists
 
