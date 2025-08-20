@@ -110,7 +110,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Write Instance IP to Inventory
-        run: terraform output -json | jq -r .instance_ip > ../inventory.ini # write the invtory file outside of iac
+        run: terraform output -json | jq -r .instance_ip.value > ../inventory.ini # write the invtory file outside of iac
 
       - name: Upload Ansible Artifacts
         uses: actions/upload-artifact@v4
@@ -131,6 +131,11 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: "Debug: where is this running"
+        run: |
+          pwd
+		  ls
+
       - name: Install Ansible
         run: pip install ansible
 
@@ -138,7 +143,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
           chmod 0400 key.pem
-          ls -l key.pem
+          du -h key.pem # debug: to check if the key was appended
 
       - name: Download Ansible Artifacts
         uses: actions/download-artifact@v4
