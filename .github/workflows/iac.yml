@@ -128,8 +128,13 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
+      - name: Save Private Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+          chmod 0400 key.pem
+
       - name: Run Playbook
-        run: ansible-playbook -i ansible/inventory inventory --private-key ${{ secrets.SSH_PRIVATE_KEY }}
+        run: ansible-playbook -i ansible/inventory inventory --private-key key.pem
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false' # important apparently
 
