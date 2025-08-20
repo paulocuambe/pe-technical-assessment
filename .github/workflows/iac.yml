@@ -138,7 +138,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
           chmod 0400 key.pem
-		  ls -l key.pem
+          ls -l key.pem
 
       - name: Download Ansible Artifacts
         uses: actions/download-artifact@v4
