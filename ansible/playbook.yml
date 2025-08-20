@@ -22,3 +22,14 @@
     - name: Install k3s
       ansible.builtin.shell: curl -sfL https://get.k3s.io | sh -
       when: not kubelet_conf_file.stat.exists
+
+    - name: Copy manifests to instance
+      ansible.builtin.copy:
+        src: ../k3s/
+        dest: /home/ssm-user/k8s
+        owner: ssm-user
+        group: ssm-user
+        mode: '0644'
+
+    - name: Kubectl apply
+      ansible.builtin.shell: kubectl apply -R -f /home/ssm-user/k8s/
