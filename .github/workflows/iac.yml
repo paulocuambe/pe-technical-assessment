@@ -110,13 +110,13 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Write Instance IP to Inventory
-        run: terraform output -json | jq -r .instance_ip > ../ansible/inventory.ini
+        run: terraform output -json | jq -r .instance_ip > ../inventory.ini # write the invtory file outside of iac
 
       - name: Upload Ansible Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ansible-inventory
-          path: ansible/inventory.ini
+          path: inventory.ini
 
   run-ansible-playbook:
     name: "Run Ansible Playbook"
