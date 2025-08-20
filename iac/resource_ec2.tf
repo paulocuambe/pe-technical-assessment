@@ -5,14 +5,13 @@ resource "aws_instance" "web" {
   iam_instance_profile   = "SSMInstanceProfile"
   user_data = <<-EOT
               #cloud-config
-              users:
-                - name: ssm-user
-                  sudo: ALL=(ALL) NOPASSWD:ALL
-                  shell: /bin/bash
-                  ssh_authorized_keys:
-                    - ${var.ssh_public_key}
+              write_files:
+                - path: /home/ec2-user/.ssh/authorized_keys
+                  permissions: '0600'
+                  owner: ec2-user:ec2-user
+                  content: ${var.ssh_public_key}
+
               EOT
-  vpc_security_group_ids = tolist([aws_security_group.web_traffic.id])
 
   tags = {
     Name = "Word-Server"
