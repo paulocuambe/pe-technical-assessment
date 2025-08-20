@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ["build-app-artifacts"]
     types:
-    - completed
+      - completed
   pull_request:
     branches:
       - main
