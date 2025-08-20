@@ -4,7 +4,7 @@
 	- [X] Enable privilege escalation without password
 	- [X] Configure ssh authorized keys for Ansible playbook
 - [ ] Ansible code to configure instance
-	- [ ] Instal k3s and dependencies
+	- [X] Instal k3s and dependencies
 	- [ ] Configure k8s cluster
 - [ ] Create Dockerfile to build the app
 - [X] Setup Github Actions
