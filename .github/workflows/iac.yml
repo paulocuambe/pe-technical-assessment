@@ -20,10 +20,6 @@ permissions:
   pull-requests: write
   id-token: write
 
-defaults:
-  run:
-    working-directory: iac
-
 jobs:
   terraform-plan:
     name: "Terraform Plan"
@@ -50,16 +46,20 @@ jobs:
             -backend-config="key=${{ secrets.TF_STATE_KEY }}" \
             -backend-config="region=${{ secrets.AWS_REGION }}" \
             -input=false
+        working-directory: iac
 
       - name: Terraform Validate
         run: terraform validate
+        working-directory: iac
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -out=plan.out
+        working-directory: iac
 
       - name: Save plan as JSON
         run: terraform show -json plan.out > plan.json
+        working-directory: iac
 
       - name: Upload Terraform Plan Artifact
         uses: actions/upload-artifact@v4
@@ -102,15 +102,18 @@ jobs:
             -backend-config="key=${{ secrets.TF_STATE_KEY }}" \
             -backend-config="region=${{ secrets.AWS_REGION }}" \
             -input=false
+        working-directory: iac
 
       - name: Terraform Apply
         run: terraform apply -auto-approve plan.out
+        working-directory: iac
 
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Write Instance IP to Inventory
         run: terraform output -json | jq -r .instance_ip.value > ../inventory.ini # write the invtory file outside of iac
+        working-directory: iac
 
       - name: Upload Ansible Artifacts
         uses: actions/upload-artifact@v4
