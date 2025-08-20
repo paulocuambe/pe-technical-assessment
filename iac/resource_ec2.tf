@@ -6,10 +6,10 @@ resource "aws_instance" "web" {
   user_data              = <<EOF
     #cloud-config
     users:
-    - name: ssm-user
-      sudo: ALL(ALL) NOPASSWD:ALL # priviledge escalation without password
-      ssh_authorized_keys:
-      - ssh-rsa ${var.ssh_public_key}
+      - name: ssm-user
+        sudo: ALL(ALL) NOPASSWD:ALL # priviledge escalation without password
+        ssh_authorized_keys:
+        - ssh-rsa ${var.ssh_public_key}
   EOF
   vpc_security_group_ids = tolist([aws_security_group.web_traffic.id])
 
