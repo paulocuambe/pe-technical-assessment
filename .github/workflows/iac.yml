@@ -89,6 +89,12 @@ jobs:
         with:
           terraform_version: 1.12.2
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: af-south-1
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+
       - name: Terraform Init
         run: |
           terraform init \
@@ -96,12 +102,6 @@ jobs:
             -backend-config="key=${{ secrets.TF_STATE_KEY }}" \
             -backend-config="region=${{ secrets.AWS_REGION }}" \
             -input=false
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: af-south-1
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve plan.out
