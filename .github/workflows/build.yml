@@ -1,4 +1,4 @@
-name: Build App Artifacts
+name: build-app-artifacts
 
 on:
   pull_request:

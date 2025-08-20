@@ -1,6 +1,5 @@
-name: Terraform CI/CD
+name: iac
 
-# Configure the pipeline to run on pull requests and pushes to the 'main' branch.
 on:
   pull_request:
     branches:
