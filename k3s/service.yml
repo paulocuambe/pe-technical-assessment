@@ -4,9 +4,24 @@ metadata:
   name: mypalavra-service
 spec:
   selector:
-    app: mypalavra-app
+    app: mypalavra
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-  type: ClusterIP
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mypalavra-service-v2
+spec:
+  selector:
+    app: mypalavra
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+
