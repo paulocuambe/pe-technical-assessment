@@ -8,24 +8,18 @@ This project deploys the a golang webservice by leveraging container technologie
 - **Golang**: used for the code of the application.
 - **OpenAPI spec**: used to document the api developed and deployed as part of this solution.
 
-## TODO
-- [X] MVP of word service
-- [X] Terraform Code to provision ec2 instance and all supporting resources
-	- [X] Enable privilege escalation without password
-	- [X] Configure ssh authorized keys for Ansible playbook
-- [X] Ansible code to configure instance
-	- [X] Instal k3s and dependencies
-	- [X] Configure k8s cluster
-- [X] Create Dockerfile to build the app
-- [X] Setup Github Actions
-- [ ] Deploy K8S manifests with Ansible
-- [X] Create the OpenAPI spec
-- [ ] Refactor the MVP
-	- [ ] Add unit tests
-	- [ ] Integration tests
-	- [ ] Update code organization to emulate a production
-- [ ] Monitoring
-	- [ ] Add Grafana and prometheus for monitoring
-	- [ ] Fallback to aws cloudwatch
-- [ ] Deploy sonarqube community on an ec2 instance
-	- [ ] Integrate Sonarqube Community to Github Actions
+## What is done
+- [X] All configuration is done through pipelines with a mix of Terraform and Ansible. Ansible inventory is updated dynamically every time the instance is destroyed and recreated.
+- [X] K3s cluster was installed successfully in the instance.
+- [X] K8s objects are deployed automatically by just adding the files to `k3s` and running the pipeline.
+- [X] Application is tested and built in the pipeline.
+- [X] The container is pushed to docker hub automatically when the pipeline runs.
+- [X] Unit Tests
+
+## What is missing
+- Hability to access the application from outside the EC2 instance:
+    - Missing configuration to expose the service using a public IP.
+- Monitoring and Code Quality pipelines
+
+## Closing remarks
+- Awesome challenge
