@@ -50,7 +50,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    if: github.ref == 'refs/heads/develop'
 
     steps:
       - name: Checkout repository
