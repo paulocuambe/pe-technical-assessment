@@ -134,7 +134,7 @@ jobs:
           chmod 0400 key.pem
 
       - name: Run Playbook
-        run: ansible-playbook -i ansible/inventory inventory --private-key key.pem
+        run: ansible-playbook -i ansible/inventory --private-key key.pem
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false' # important apparently
 
