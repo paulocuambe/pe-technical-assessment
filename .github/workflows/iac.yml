@@ -110,7 +110,13 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Write Instance IP to Inventory
-        run: terraform output -json | jq -r .instance_ip > ../ansible/inventory
+        run: terraform output -json | jq -r .instance_ip > ../ansible/inventory.ini
+
+      - name: Upload Ansible Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ansible-inventory
+          path: ansible/inventory.ini
 
   run-ansible-playbook:
     name: "Run Ansible Playbook"
@@ -132,9 +138,16 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
           chmod 0400 key.pem
+		  ls -l key.pem
+
+      - name: Download Ansible Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ansible-inventory
+          path: ansible
 
       - name: Run Playbook
-        run: ansible-playbook -i ansible/inventory --private-key key.pem
+        run: ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --private-key key.pem
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false' # important apparently
 
