@@ -1,16 +1,17 @@
 resource "aws_instance" "web" {
-  ami                    = "ami-02839d797c7613993" # Amazon Linux 2023 x86
-  instance_type          = "t3a.small"
+  ami                    = "ami-0cf00a97588a6d5c9" # ubuntu 24
+  instance_type          = "t3.small"
   subnet_id              = aws_subnet.public.id
-  user_data              = <<EOF
-    #cloud-config
-	users:
-		- name: ssm-user
-		  sudo: ALL(ALL) NOPASSWD:ALL # priviledge escalation without password
-		  ssh_authorized_keys:
-		  - ssh-rsa ${var.ssh_public_key}
-  EOF
+  iam_instance_profile   = "SSMInstanceProfile"
   vpc_security_group_ids = tolist([aws_security_group.web_traffic.id])
+  user_data = <<-EOT
+              #cloud-config
+              users:
+                - name: ssm-user
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  ssh_authorized_keys:
+                    - ${var.ssh_public_key}
+              EOT
 
   tags = {
     Name = "Word-Server"
@@ -26,6 +27,14 @@ resource "aws_security_group" "web_traffic" {
     description = "Accept all TCP traffic on 8080"
     from_port   = 8080
     to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Accept traffic to ssh port"
+    from_port   = 22
+    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
