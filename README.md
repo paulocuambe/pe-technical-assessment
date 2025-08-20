@@ -1,3 +1,13 @@
+# Solution
+This project deploys the a golang webservice by leveraging container technologies and automation tools.
+
+## Technical details
+- **Github Actions**: were used to configure the entire deployment process.
+- **Ansible**: was used to install k3s in the host machine and deploy to deploy the application.
+- **Terraform**: was used to launch all infrastructure components necessary to deploy an EC2 following best practices. Through EC2's user_data property I was able to configure privilege escalation without the need of a password and to setup the public key that is used by `ansible-paybook` to ssh into the machine and finish the setup process.
+- **Golang**: used for the code of the application.
+- **OpenAPI spec**: used to document the api developed and deployed as part of this solution.
+
 ## TODO
 - [X] MVP of word service
 - [X] Terraform Code to provision ec2 instance and all supporting resources
