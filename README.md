@@ -19,7 +19,8 @@ This project deploys the a golang webservice by leveraging container technologie
 ## What is missing
 - Hability to access the application from outside the EC2 instance:
     - Missing configuration to expose the service using a public IP.
-- Monitoring and Code Quality pipelines
+- Monitoring and Code Quality pipelines.
+- Some jobs need fine-tunning to only run when absolutely necessary.
 
 ## Closing remarks
 - Awesome challenge
