@@ -3,10 +3,10 @@
 - [X] Terraform Code to provision ec2 instance and all supporting resources
 	- [X] Enable privilege escalation without password
 	- [X] Configure ssh authorized keys for Ansible playbook
-- [ ] Ansible code to configure instance
+- [-] Ansible code to configure instance
 	- [X] Instal k3s and dependencies
 	- [ ] Configure k8s cluster
-- [ ] Create Dockerfile to build the app
+- [X] Create Dockerfile to build the app
 - [X] Setup Github Actions
 - [ ] Deploy K8S manifests with Ansible
 - [ ] Create the OpenAPI spec
