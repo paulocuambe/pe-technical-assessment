@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Word Counter API
+  version: 0.0.1
+servers:
+  - url: 'https://localhost:8080'
+    description: development
+paths:
+  /api/v1/words:
+    get:
+      summary: Counts words, vowels, and consonants in a phrase.
+      parameters:
+        - in: query
+          name: phrase
+          schema:
+            type: string
+          required: false # changed to false
+          description: The phrase to analyze.
+      responses:
+        '200':
+          description: A successful response with the word count or a default message.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  words:
+                    type: integer
+                    description: The number of words in the phrase.
+                  vowels:
+                    type: integer
+                    description: The number of vowels in the phrase.
+                  consonants:
+                    type: integer
+                    description: The number of consonants in the phrase.
+              example:
+                words: 1
+                vowels: 2
+                consonants: 4
+            text/plain:
+              schema:
+                type: string
+              example: "hello world"

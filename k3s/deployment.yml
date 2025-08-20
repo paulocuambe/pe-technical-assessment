@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mypalava-deployment
+  labels:
+    app: mypalavra-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mypalavra
+  template:
+    metadata:
+      labels:
+        app: mypalavra
+    spec:
+      containers:
+      - name: mapalavra
+        image: paulocuambe/mapalavra:ffd42d183aa68f1a827b788fa13e33c6ba4fe6fc
+        ports:
+        - containerPort: 8080

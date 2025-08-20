@@ -14,6 +14,7 @@ const (
 )
 
 func vowels(s string) int {
+	s = cleanup(s)
 	r := regexp.MustCompile(fmt.Sprintf("[%s]", ALPHABET_VOWELS))
 	rvw := r.FindAll([]byte(s), -1)
 
@@ -26,6 +27,7 @@ func vowels(s string) int {
 }
 
 func consonants(s string) int {
+	s = cleanup(s)
 	r := regexp.MustCompile(fmt.Sprintf("[%s]", ALPHABET_CONSONANTS))
 	rcs := r.FindAll([]byte(strings.ToLower(s)), -1)
 
@@ -38,6 +40,7 @@ func consonants(s string) int {
 }
 
 func words(s string) int {
+	s = cleanup(s)
 	return len(strings.Split(s, " "))
 }
 
@@ -56,11 +59,10 @@ func api(w http.ResponseWriter, r *http.Request) {
 
 	if phrase == "" {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("hello world"))
+		w.Write([]byte("hello world\n"))
 		return
 	}
 
-	phrase = cleanup(phrase)
 	ws, v, c := words(phrase), vowels(phrase), consonants(phrase)
 
 	w.Header().Add("Content-Type", "application/json")
@@ -69,9 +71,6 @@ func api(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	phrase := "Hello sir, how are you?"
-	phrase = strings.TrimSpace(strings.ToLower(phrase))
-
 	http.HandleFunc("GET /api/v1/words", api)
 	log.Println("starting the api")
 	http.ListenAndServe("localhost:8080", nil)

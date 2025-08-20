@@ -1,6 +1,5 @@
-name: Terraform CI/CD
+name: iac
 
-# Configure the pipeline to run on pull requests and pushes to the 'main' branch.
 on:
   pull_request:
     branches:
@@ -19,10 +18,6 @@ permissions:
   pull-requests: write
   id-token: write
 
-defaults:
-  run:
-    working-directory: iac
-
 jobs:
   terraform-plan:
     name: "Terraform Plan"
@@ -36,24 +31,33 @@ jobs:
         with:
           terraform_version: 1.12.2
 
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Validate
-        run: terraform validate
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: af-south-1
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
+            -backend-config="key=${{ secrets.TF_STATE_KEY }}" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
+            -input=false
+        working-directory: iac
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: iac
+
       - name: Terraform Plan
         id: plan
         run: terraform plan -out=plan.out
+        working-directory: iac
 
       - name: Save plan as JSON
         run: terraform show -json plan.out > plan.json
+        working-directory: iac
 
       - name: Upload Terraform Plan Artifact
         uses: actions/upload-artifact@v4
@@ -67,7 +71,7 @@ jobs:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     needs: terraform-plan
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+#    if: github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,15 +80,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-plan
-          path: plan.out
+          path: iac
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
-
-      - name: Terraform Init
-        run: terraform init
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -92,14 +93,34 @@ jobs:
           aws-region: af-south-1
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
+            -backend-config="key=${{ secrets.TF_STATE_KEY }}" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
+            -input=false
+        working-directory: iac
+
       - name: Terraform Apply
         run: terraform apply -auto-approve plan.out
+        working-directory: iac
 
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Init inventory file
+        run: echo "[servers]" > inventory.ini
+
       - name: Write Instance IP to Inventory
-        run: terraform outup -json | jq -r .instance_ip > ../ansible/inventory
+        run: terraform output -json | jq -r .instance_ip.value | awk '{print "server1 ansible_host=" $1 " ansible_user=ssm-user"}' >> ../inventory.ini # write the invtory file outside of iac
+        working-directory: iac
+
+      - name: Upload Ansible Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ansible-inventory
+          path: inventory.ini
 
   run-ansible-playbook:
     name: "Run Ansible Playbook"
@@ -117,8 +138,19 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
+      - name: Save Private Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+          chmod 0400 key.pem
+
+      - name: Download Ansible Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ansible-inventory
+          path: ansible
+
       - name: Run Playbook
-        run: ansible-playbook -i ansible/inventory inventory --private-key ${{ secrets.SSH_PRIVATE_KEY }}
+        run: ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --private-key key.pem
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false' # important apparently
 
