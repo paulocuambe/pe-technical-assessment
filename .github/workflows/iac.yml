@@ -132,9 +132,7 @@ jobs:
           python-version: '3.x'
 
       - name: "Debug: where is this running"
-        run: |
-          pwd
-		  ls
+        run: pwd && ls
 
       - name: Install Ansible
         run: pip install ansible
