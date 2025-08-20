@@ -115,7 +115,7 @@ jobs:
         run: echo "[servers]" > inventory.ini
 
       - name: Write Instance IP to Inventory
-        run: terraform output -json | jq -r .instance_ip.value | awk '{print "server1 ansible_host=" $1 " ansible_user=ssm-user"}' >> ../inventory.ini # write the invtory file outside of iac
+        run: terraform output -json | jq -r .instance_ip.value | awk '{print "server1 ansible_host=" $1 " ansible_user=root"}' >> ../inventory.ini # write the invtory file outside of iac
         working-directory: iac
 
       - name: Upload Ansible Artifacts
