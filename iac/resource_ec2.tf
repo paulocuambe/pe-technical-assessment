@@ -1,5 +1,5 @@
 resource "aws_instance" "web" {
-  ami                    = "ami-0847fa6d0e3607474" # Amazon Linux 2
+  ami                    = "ami-0cf00a97588a6d5c9" # ubuntu 24
   instance_type          = "t3.small"
   subnet_id              = aws_subnet.public.id
   iam_instance_profile   = "SSMInstanceProfile"

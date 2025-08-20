@@ -4,16 +4,15 @@
 
   tasks:
     - name: Install curl
-      ansible.builtin.yum:
+      ansible.builtin.apt:
         name: curl
         state: present
 
     # https://docs.k3s.io/installation/requirements?os=rhel#operating-systems
-    - name: Ensure firewalld is disabled
-      ansible.builtin.systemd:
-        name: firewalld
-        state: stopped
-      failed_when: false
+    - name: Ensure ufw is disabled
+      community.general.ufw:
+        state: disabled
+      ignore_errors: yes
 
     - name: Check if k3s is already installed
       ansible.builtin.stat:
