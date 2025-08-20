@@ -56,7 +56,7 @@ func api(w http.ResponseWriter, r *http.Request) {
 
 	if phrase == "" {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("hello world"))
+		w.Write([]byte("hello world\n"))
 		return
 	}
 
