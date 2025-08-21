@@ -25,8 +25,8 @@ resource "aws_security_group" "web_traffic" {
 
   ingress {
     description = "Accept all TCP traffic on 8080"
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 30000
+    to_port     = 32767
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
