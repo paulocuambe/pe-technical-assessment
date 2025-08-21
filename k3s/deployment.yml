@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: mapalavra
-        image: paulocuambe/mapalavra:ffd42d183aa68f1a827b788fa13e33c6ba4fe6fc
+        image: paulocuambe/mapalavra:0.0.1-RELEASE
         ports:
         - containerPort: 8080
