@@ -73,5 +73,5 @@ func api(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("GET /api/v1/words", api)
 	log.Println("starting the api")
-	http.ListenAndServe("localhost:8080", nil)
+	log.Println(http.ListenAndServe("0.0.0.0:8080", nil))
 }
