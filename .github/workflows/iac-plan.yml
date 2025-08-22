@@ -1,4 +1,4 @@
-name: iac
+name: iac-plan
 
 on:
   pull_request:
