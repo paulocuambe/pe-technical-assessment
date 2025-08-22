@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - '**'
-      
+
 jobs:
   go-build:
     runs-on: ubuntu-latest
