@@ -12,7 +12,7 @@ env:
   APP_VERSION: 0.0.1-RELEASE
 
 jobs:
-  publish-release-develop:
+  build-publish-dev:
     runs-on: ubuntu-latest
     permissions:
       contents: read

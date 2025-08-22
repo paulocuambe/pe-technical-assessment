@@ -16,7 +16,6 @@ permissions:
 
 jobs:
   terraform-apply:
-    name: "Terraform Apply"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -67,8 +66,7 @@ jobs:
           name: ansible-inventory
           path: inventory.ini
 
-  run-ansible-playbook:
-    name: "Run Ansible Playbook"
+  ansible-playbook:
     runs-on: ubuntu-latest
     needs: terraform-apply
     steps:
